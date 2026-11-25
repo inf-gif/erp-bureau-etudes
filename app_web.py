@@ -473,7 +473,7 @@ def export_excel():
     for i, w in enumerate([6, 25, 20, 15, 15, 8, 20, 12, 14, 12], start=1):
         ws.column_dimensions[chr(64+i)].width = w
     buf = io.BytesIO(); wb.save(buf); buf.seek(0)
-    return send_file(buf, as_attachment=True, download_name=f"projets_{date.today()}.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    return send_file(buf, as_attachment=true, download_name=f"projets_{date.today()}.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 @app.route("/notifier")
 @login_required
@@ -550,7 +550,7 @@ def generer_devis_pdf(id):
 
     doc.build(elements)
     buf.seek(0)
-    return send_file(buf, as_attachment=True, download_name=f"Devis_{ref}.pdf", mimetype="application/pdf")
+    return send_file(buf, as_attachment=False, download_name=f"Devis_{ref}.pdf", mimetype="application/pdf")
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
