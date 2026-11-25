@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: gestion_offres
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+
+  # Optionnel : planificateur de notifications
+  scheduler:
+    image: python:3.11-slim
+    container_name: offres_scheduler
+    working_dir: /app
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    command: >
+      sh -c "pip install python-dotenv requests &&
+             while true; do
+               python notifications.py;
+               sleep 86400;
+             done"
+    restart: unless-stopped
+    depends_on:
+      - app
